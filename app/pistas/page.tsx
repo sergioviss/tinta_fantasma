@@ -165,12 +165,11 @@ export default function PistasPage() {
             value={[tiempoSeleccionado]}
             onValueChange={cambiarTiempoSeleccionado}
             max={120}
-            min={10}
-            step={5}
+            min={30}
+            step={30}
             className="w-full"
           />
           <div className="flex justify-between mt-2 text-sm text-gray-600">
-            <span>10s</span>
             <span>30s</span>
             <span>60s</span>
             <span>90s</span>
