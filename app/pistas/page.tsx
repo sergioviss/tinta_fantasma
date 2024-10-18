@@ -15,12 +15,15 @@ export default function PistasPage() {
   const [etapa, setEtapa] = useState<'seleccion' | 'confirmacion' | 'final'>('seleccion');
   const [tiempoRestante, setTiempoRestante] = useState<number | null>(null);
   const [contadorActivo, setContadorActivo] = useState(false);
-  const [tiempoSeleccionado, setTiempoSeleccionado] = useState<number>(() => {
-    const tiempoGuardado = localStorage.getItem('tiempoSeleccionado');
-    return tiempoGuardado ? parseInt(tiempoGuardado, 10) : 60;
-  });
+  const [tiempoSeleccionado, setTiempoSeleccionado] = useState<number>(60);
 
   useEffect(() => {
+    // Mover la inicialización de localStorage aquí
+    const tiempoGuardado = localStorage.getItem('tiempoSeleccionado');
+    if (tiempoGuardado) {
+      setTiempoSeleccionado(parseInt(tiempoGuardado, 10));
+    }
+
     const seleccionarPistasAleatorias = () => {
       const pistasSeleccionadas = [];
       const copiaPistas = [...pistas];
@@ -75,7 +78,9 @@ export default function PistasPage() {
   const cambiarTiempoSeleccionado = (nuevoTiempo: number[]) => {
     const tiempo = nuevoTiempo[0];
     setTiempoSeleccionado(tiempo);
-    localStorage.setItem('tiempoSeleccionado', tiempo.toString());
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('tiempoSeleccionado', tiempo.toString());
+    }
   };
 
   return (
@@ -160,16 +165,16 @@ export default function PistasPage() {
             value={[tiempoSeleccionado]}
             onValueChange={cambiarTiempoSeleccionado}
             max={120}
-            min={0}
-            step={30}
+            min={10}
+            step={5}
             className="w-full"
           />
           <div className="flex justify-between mt-2 text-sm text-gray-600">
-            <span>1 seg</span>
-            <span>30 seg</span>
-            <span>60 seg</span>
-            <span>90 seg</span>
-            <span>120 seg</span>
+            <span>10s</span>
+            <span>30s</span>
+            <span>60s</span>
+            <span>90s</span>
+            <span>120s</span>
           </div>
         </div>
       </footer>
