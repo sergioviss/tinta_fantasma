@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { pistas } from '@/lib/data';
+import { useGame } from '@/lib/GameContext';
 
 export default function PistasPage() {
+  const { saveQuestion } = useGame();
   const [pistasAleatorias, setPistasAleatorias] = useState<string[]>([]);
   const [pistasSeleccionadas, setPistasSeleccionadas] = useState<string[]>([]);
   const [pistaFinal, setPistaFinal] = useState<string | null>(null);
@@ -43,6 +45,7 @@ export default function PistasPage() {
   const seleccionarPistaFinal = (pista: string) => {
     setPistaFinal(pista);
     setEtapa('final');
+    saveQuestion(pista); // Guardamos la pista final seleccionada
   };
 
   return (
@@ -56,7 +59,7 @@ export default function PistasPage() {
               <li key={index}>
                 <Button
                   onClick={() => seleccionarPista(pista)}
-                  className={`w-full min-h-[80px] text-xl py-4 px-6 whitespace-normal ${
+                  className={`w-full h-16 text-xl py-4 px-6 whitespace-normal ${
                     pistasSeleccionadas.includes(pista) ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                   }`}
                 >
@@ -68,7 +71,7 @@ export default function PistasPage() {
           <Button
             onClick={confirmarSeleccion}
             disabled={pistasSeleccionadas.length !== 2}
-            className="mt-6 w-full text-xl py-4 px-6"
+            className="mt-4 w-full h-16 text-xl font-extrabold py-4 px-6 bg-green-700"
           >
             Siguiente
           </Button>
@@ -82,7 +85,7 @@ export default function PistasPage() {
               <li key={index}>
                 <Button
                   onClick={() => seleccionarPistaFinal(pista)}
-                  className="w-full min-h-[80px] text-xl py-4 px-6 whitespace-normal"
+                  className="w-full h-16 text-xl py-4 px-6 whitespace-normal"
                 >
                   {index + 1}. {pista}
                 </Button>
@@ -97,8 +100,10 @@ export default function PistasPage() {
           <p className="text-3xl font-bold p-6 bg-primary text-primary-foreground rounded-lg">{pistaFinal}</p>
         </div>
       )}
-      <Link href="/">
-        <Button className="w-64 h-16 text-xl py-4 px-6">Regresar al Menú Principal</Button>
+      <Link href="/" className="flex items-left">
+        <Button className="h-16 text-xl px-6 bg-gray-400">
+          <span className="mr-2">←</span> Menú Principal
+        </Button>
       </Link>
     </div>
   );

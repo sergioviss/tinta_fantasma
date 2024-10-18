@@ -33,8 +33,10 @@ export default function PalabrasPage() {
           </li>
         ))}
       </ul>
-      <Link href="/">
-        <Button className="w-64 h-16 text-xl py-4 px-6">Regresar al Menú Principal</Button>
+      <Link href="/" className="flex items-left">
+        <Button className="h-16 text-xl px-6 bg-gray-400">
+          <span className="mr-2">←</span> Menú Principal
+        </Button>
       </Link>
     </div>
   );
