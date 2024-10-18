@@ -41,8 +41,12 @@ export default function PistasPage() {
   const seleccionarPista = (pista: string) => {
     if (pistasSeleccionadas.includes(pista)) {
       setPistasSeleccionadas(pistasSeleccionadas.filter(p => p !== pista));
-    } else if (pistasSeleccionadas.length < 2) {
-      setPistasSeleccionadas([...pistasSeleccionadas, pista]);
+    } else {
+      if (pistasSeleccionadas.length < 2) {
+        setPistasSeleccionadas([...pistasSeleccionadas, pista]);
+      } else {
+        setPistasSeleccionadas([pistasSeleccionadas[0], pista]);
+      }
     }
   };
 
@@ -86,7 +90,6 @@ export default function PistasPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow flex flex-col items-center justify-center p-4 text-center">
-        <h1 className="text-3xl font-bold mb-6">Pistas</h1>
         {etapa === 'seleccion' && (
           <div className="mb-8 w-full max-w-2xl">
             <p className="text-2xl mb-4">Selecciona 2 pistas:</p>
@@ -154,29 +157,31 @@ export default function PistasPage() {
         {(tiempoRestante === null || tiempoRestante === 0) && (
           <Link href="/" className="flex justify-center mt-16">
             <Button className="h-16 text-xl px-6 bg-gray-400">
-              <span className="mr-2">←</span> Menú Principal
+                Menú Principal
             </Button>
           </Link>
         )}
       </div>
-      <footer className="sticky bottom-0 w-full bg-gray-100 p-4 shadow-lg">
-        <div className="max-w-2xl mx-auto">
-          <Slider
-            value={[tiempoSeleccionado]}
-            onValueChange={cambiarTiempoSeleccionado}
-            max={120}
-            min={30}
-            step={30}
-            className="w-full"
-          />
-          <div className="flex justify-between mt-2 text-sm text-gray-600">
-            <span>30s</span>
-            <span>60s</span>
-            <span>90s</span>
-            <span>120s</span>
+      {etapa === 'final' && (
+        <footer className="sticky bottom-0 w-full bg-gray-100 p-4 shadow-lg">
+          <div className="max-w-2xl mx-auto">
+            <Slider
+              value={[tiempoSeleccionado]}
+              onValueChange={cambiarTiempoSeleccionado}
+              max={120}
+              min={30}
+              step={30}
+              className="w-full bg-gray-200 rounded-full"
+            />
+            <div className="flex justify-between mt-2 text-sm text-gray-600">
+              <span>30s</span>
+              <span>60s</span>
+              <span>90s</span>
+              <span>120s</span>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 }

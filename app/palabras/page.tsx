@@ -35,7 +35,7 @@ export default function PalabrasPage() {
       </ul>
       <Link href="/" className="flex items-left">
         <Button className="h-16 text-xl px-6 bg-gray-400">
-          <span className="mr-2">←</span> Menú Principal
+            Menú Principal
         </Button>
       </Link>
     </div>
